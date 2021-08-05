@@ -21,7 +21,7 @@ class DiviedendHistory(BaseModel):
     date: str
     dividend: float
 
-@app.get("/dividend_history", response_model=List[DiviedendHistory])
+@app.get("/api/dividend_history", response_model=List[DiviedendHistory])
 def dividend_history(ticker: str = None):
     if ticker is None:
         return RedirectResponse("/dividend_history?ticker={}".format(default_ticker))
