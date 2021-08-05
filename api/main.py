@@ -1,3 +1,4 @@
+from typing import List
 import json
 
 import uvicorn
@@ -20,7 +21,7 @@ class DiviedendHistory(BaseModel):
     date: str
     dividend: float
 
-@app.get("/dividend_history", response_model=DiviedendHistory)
+@app.get("/dividend_history", response_model=List[DiviedendHistory])
 def dividend_history(ticker: str = None):
     if ticker is None:
         return RedirectResponse("/dividend_history?ticker={}".format(default_ticker))
@@ -34,7 +35,7 @@ def dividend_history(ticker: str = None):
             'dividend': row.Dividends
         })
     
-    return json.dumps(res)
+    return res
 
 
 if __name__ == "__main__":
