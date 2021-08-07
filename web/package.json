@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next export",
     "start": "next start",
     "lint": "eslint . --ext .js,.ts,.tsx",
-    "next-version": "next -v",
-    "export": "next build && next export -o ../api/public"
+    "next-version": "next -v"
   },
   "dependencies": {
     "next": "11.0.1",
