@@ -1,11 +1,13 @@
-from typing import List
-import json
-
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+
+import os
+from typing import List
+import json
 
 from src.history import History
 
@@ -50,6 +52,10 @@ def dividend_history(ticker: str = None):
         })
     
     return res
+
+
+if os.path.exists("public"):
+    app.mount("/", StaticFiles(directory="public", html=True), name="public")
 
 
 if __name__ == "__main__":
