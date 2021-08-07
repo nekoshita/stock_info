@@ -17,3 +17,5 @@ export const DividendHistoryChart = ({ ticker }: IProps) => {
     </>
   );
 };
+
+export default DividendHistoryChart;

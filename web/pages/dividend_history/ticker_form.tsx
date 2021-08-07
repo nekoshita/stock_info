@@ -32,3 +32,5 @@ export const TickerForm = ({ ticker }: IProps) => {
     </form>
   );
 };
+
+export default TickerForm;

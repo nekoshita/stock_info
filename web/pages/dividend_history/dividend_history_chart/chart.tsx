@@ -27,3 +27,5 @@ export const Chart = ({ dividendHistory }: IProps) => {
     </ResponsiveContainer>
   );
 };
+
+export default Chart;
