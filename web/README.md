@@ -1,5 +1,6 @@
 # stock-info web
 
 ```
-yarn dev
+yarn build
+yarn export -o ../api/public
 ```
