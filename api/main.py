@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -37,12 +37,18 @@ class DiviedendHistory(BaseModel):
     date: str
     dividend: float
 
-@app.get("/api/dividend_history", response_model=List[DiviedendHistory])
+class Message(BaseModel):
+    message: str
+
+@app.get("/api/dividend_history", response_model=List[DiviedendHistory], responses={401: {"model": Message}, 404: {"model": Message}})
 def dividend_history(ticker: str = None):
     if ticker is None:
-        return RedirectResponse("/dividend_history?ticker={}".format(default_ticker))
+        return JSONResponse(status_code=401, content={"message": "ticker is required"})
     
     df = History(ticker).df()
+
+    if df is None:
+        return JSONResponse(status_code=404, content={"message": "Item not found"})
 
     res = []
     for index, row in df.iterrows():
