@@ -2,6 +2,8 @@ FROM node:14.16-alpine3.13 AS web-builder
 
 WORKDIR /src
 
+ARG NEXT_PUBLIC_BASE_URL
+
 COPY ./web /src
 RUN yarn install
 RUN yarn build

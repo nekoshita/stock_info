@@ -3,8 +3,8 @@ import useSWR from "swr";
 import { Dividend } from "src/components/types";
 
 const baseURL = (() => {
-  if (process.env.BASE_URL) {
-    return process.env.BASE_URL;
+  if (process.env.NEXT_PUBLIC_BASE_URL) {
+    return process.env.NEXT_PUBLIC_BASE_URL;
   }
   return "http://localhost:8080";
 })();
