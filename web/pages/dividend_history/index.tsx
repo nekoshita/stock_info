@@ -1,18 +1,25 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 
-import { useDividendHistory } from "src/logic/api";
+import { DividendHistoryChart } from "./dividend_history_chart";
+import { TickerForm } from "./ticker_form";
 
-import { Chart } from "./chart";
+const DividendHistory = () => {
+  const router = useRouter();
+  const { ticker } = router.query;
 
-export default function DividendHistory() {
-  const { data, error } = useDividendHistory("MCD");
-
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  if (typeof ticker === "undefined") {
+    return <div>no ticker</div>;
+  }
 
   return (
     <>
-      <Chart dividendHistory={data} />
+      <TickerForm />
+      <DividendHistoryChart
+        ticker={Array.isArray(ticker) ? ticker[0] : ticker}
+      />
     </>
   );
-}
+};
+
+export default DividendHistory;
