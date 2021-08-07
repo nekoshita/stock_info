@@ -18,4 +18,5 @@ RUN pip install -r requirements.txt
 
 COPY ./api /src
 COPY --from=web-builder /src/out /src/public
-EXPOSE 8080
+
+CMD python main.py
