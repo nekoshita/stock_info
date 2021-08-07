@@ -5,6 +5,7 @@ import {
   XAxis,
   YAxis,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 
 import { Dividend } from "src/components/types";
@@ -21,6 +22,7 @@ export const Chart = ({ dividendHistory }: IProps) => {
         <CartesianGrid stroke="#ccc" />
         <XAxis dataKey="date" />
         <YAxis />
+        <Tooltip />
       </LineChart>
     </ResponsiveContainer>
   );
