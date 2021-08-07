@@ -6,18 +6,23 @@ import { TickerForm } from "./ticker_form";
 
 const DividendHistory = () => {
   const router = useRouter();
-  const { ticker } = router.query;
+  const q = router.query;
+  const [ticker, setTicker] = React.useState<string | undefined>(undefined);
 
-  if (typeof ticker === "undefined") {
-    return <div>no ticker</div>;
-  }
+  React.useEffect(() => {
+    if (typeof q.ticker === "undefined") {
+      setTicker(undefined);
+      return;
+    }
+    setTicker(Array.isArray(q.ticker) ? q.ticker[0] : q.ticker);
+  }, [q.ticker]);
 
   return (
     <>
-      <TickerForm />
-      <DividendHistoryChart
-        ticker={Array.isArray(ticker) ? ticker[0] : ticker}
-      />
+      <TickerForm ticker={ticker} />
+      {typeof ticker !== "undefined" && (
+        <DividendHistoryChart ticker={ticker} />
+      )}
     </>
   );
 };
