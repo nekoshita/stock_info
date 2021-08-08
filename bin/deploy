@@ -1,0 +1,39 @@
+#!/bin/sh 
+
+set -eu
+
+IMAGE_NAME=stock-info
+GOOGLE_PROJECT=nekoshita
+GCLOUD_SERVICE_NAME=stock-info
+GCLOUD_SERVICE_REGION=asia-northeast1
+DOMAIN_NAME=stock.nekoshita.com
+
+# set GCP project
+gcloud config set project $GOOGLE_PROJECT
+
+# publish to GCR
+gcloud auth configure-docker
+docker build . \
+    -t asia.gcr.io/$GOOGLE_PROJECT/$IMAGE_NAME:latest \
+    --build-arg NEXT_PUBLIC_BASE_URL=https://$DOMAIN_NAME
+docker image push asia.gcr.io/$GOOGLE_PROJECT/$IMAGE_NAME:latest
+
+# deploy to CloudRun
+gcloud run deploy $GCLOUD_SERVICE_NAME \
+    --platform managed \
+    --image asia.gcr.io/$GOOGLE_PROJECT/$IMAGE_NAME:latest \
+    --region $GCLOUD_SERVICE_REGION \
+    --memory 128 \
+    --max-instances 1 \
+    --allow-unauthenticated \
+    --port 8080
+
+# ===========================================
+# created domain mapping
+# https://console.cloud.google.com/run/domains?project=nekoshita
+# ===========================================
+# gcloud beta run domain-mappings create \
+#     --service $GCLOUD_SERVICE_NAME \
+#     --domain $DOMAIN_NAME \
+#     --region $GCLOUD_SERVICE_REGION \
+#     --platform managed
